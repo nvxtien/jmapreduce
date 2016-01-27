@@ -1,6 +1,6 @@
 {
   "name": "jmapreduce",
-  "version": "0.1.0-build2",
+  "version": "0.1.0-build6",
   "description": "map reduce for nodejs",
   "main": "index.js",
   "scripts": {
