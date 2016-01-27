@@ -2,11 +2,11 @@
 
 # install
   ```
-  npm install --save jmapreduce
+  $ npm install --save jmapreduce
   ```
 # test
   ```
-  npm test
+  $ npm test
   ```
 # usage
   ```
