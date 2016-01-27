@@ -1,0 +1,34 @@
+{
+  "name": "jmapreduce",
+  "version": "0.1.0",
+  "description": "map reduce for nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/jmapreduce.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scorpiovn/jmapreduce.git"
+  },
+  "keywords": [
+    "mapreduce",
+    "map",
+    "reduce",
+    "nodejs",
+    "RxJS",
+    "reactive"
+  ],
+  "author": "nvtie@yahoo.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scorpiovn/jmapreduce/issues"
+  },
+  "homepage": "https://github.com/scorpiovn/jmapreduce#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.4.2"
+  },
+  "dependencies": {
+    "rx": "^4.0.7"
+  }
+}

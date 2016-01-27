@@ -3,5 +3,5 @@
  */
 'use strict'
 
-var JMapReduce = require('./src/jmapreduce.js');
+var JMapReduce = require('./lib/jmapreduce.js');
 module.exports = JMapReduce

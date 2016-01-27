@@ -2,16 +2,16 @@
  * Created by joseph on 25/01/2016.
  */
 
-var JMapReduce = require('../app/services/jmapreduce.js');
+var JMapReduce = require('../lib/jmapreduce.js');
 
-/*describe('should return lines', function(){
+describe('should return lines', function(){
     function lines(data){
         return data.match(/[^\r\n]+/g);
     };
 
-    var lines = lines("abc\n\n sfs\n sfsd\n\n sdfsdf");
+    var lines = lines("this is\n\na mapreduce\nfor nodejs\n\ndeveloped by joseph");
     console.log(lines);
-});*/
+});
 
 /*describe('should return lines key value', function(){
     /!*function lines(data){
@@ -106,7 +106,7 @@ describe('should return array', function(){
     //test.sortByValue();
     //console.log("==================================================================================")
     //test.sortByKey();
-    test.print();
+    //test.print();
 });
 
 
