@@ -10,7 +10,7 @@
   $ npm test
   ```
 # usage
-  ```
+  ```js
   var JMapReduce = require('jmapreduce'); 
   ```
 # example
