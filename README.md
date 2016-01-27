@@ -16,7 +16,6 @@
 # example
   ```js
   var JMapReduce = require('jmapreduce');
-  
   var input = "A MapReduce program is composed of a Map() procedure (method) that\n" +
           " performs filtering and sorting\n" +
           "(such as sorting students by first name into queues,\n" +
@@ -60,9 +59,11 @@
           .sort(function(a, b){
               return b.value - a.value;
           });
-  
+     
+     // print ten first elements   
      console.log("%s", JSON.stringify(jmapReduce.toArray().slice(0, 10), null, 2));
-      
+     
+     // from console 
       [
         {
           "key": "the",
