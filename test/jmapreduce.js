@@ -26,6 +26,8 @@ describe('should return key value', function () {
         }
     );
 
+    //jmapReduce.print();
+
     expect(jmapReduce.toArray()[0].key).to.equal('line1');
     expect(jmapReduce.toArray()[0].value).to.equal(1);
 
@@ -60,11 +62,11 @@ describe('should print', function () {
         }
     );
 
-    jmapReduce.print();
+    //jmapReduce.print();
     console.log('======================================================');
 });
 
-describe('should return array', function () {
+describe('should return sorted array', function () {
     var jmapReduce = new JMapReduce();
     var input = "group1 group3\n\n group3\n group3\n\n group3 group1 group2\n";
     jmapReduce.map(input, function (data) {
@@ -86,4 +88,66 @@ describe('should return array', function () {
 
 });
 
+describe('with input is an array', function () {
+    var jmapReduce = new JMapReduce();
+    var input = ["group1 group3 \n\ngroup3\n group3\n\n group3 group1 group2 \n", "group5 group6"];
+    jmapReduce.map(input);
 
+    //jmapReduce.print();
+
+    expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 \n\ngroup3\n group3\n\n group3 group1 group2 \n', value: 1}))
+        .to.equal(false);
+
+    expect(diff(jmapReduce.toArray()[1], {key: 'group5 group6', value: 1})).to.equal(false);
+
+    jmapReduce.map(function(x){
+        return x.match(/[^\s]+|\s+[^\s+]$/g);
+    });
+
+    //jmapReduce.print();
+
+    expect(diff(jmapReduce.toArray()[0], {key: 'group1', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
+
+    /*jmapReduce.map(function(data){
+        return data.match(/[^\s]+|\s+[^\s+]$/g);
+    });*/
+
+
+
+    /*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[2], {key: ' group3', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*/
+
+});
+
+describe('with input is only string', function () {
+    var jmapReduce = new JMapReduce();
+    var input = "input is only string";
+    jmapReduce.map(input);
+
+    //jmapReduce.print();
+
+    expect(diff(jmapReduce.toArray()[0], {key: 'input is only string', value: 1}))
+        .to.equal(false);
+
+    jmapReduce.map(function(x){
+        return x.match(/[^\s]+|\s+[^\s+]$/g);
+    });
+
+    expect(diff(jmapReduce.toArray()[0], {key: 'input', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[1], {key: 'is', value: 1})).to.equal(false);
+
+    /*jmapReduce.map(function(data){
+     return data.match(/[^\s]+|\s+[^\s+]$/g);
+     });*/
+
+
+
+    /*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
+     expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
+     expect(diff(jmapReduce.toArray()[2], {key: ' group3', value: 1})).to.equal(false);
+     expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*/
+
+});
