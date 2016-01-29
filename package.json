@@ -16,7 +16,8 @@
     "reduce",
     "nodejs",
     "RxJS",
-    "reactive"
+    "reactive",
+    "builder pattern"
   ],
   "author": "nvtie@yahoo.com",
   "license": "ISC",

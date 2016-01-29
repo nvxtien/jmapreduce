@@ -14,6 +14,7 @@
   var JMapReduce = require('jmapreduce'); 
   ```
 # example
+# general usage
   ```js
   var JMapReduce = require('jmapreduce');
   var input = "A MapReduce program is composed of a Map() procedure (method) that\n" +
@@ -107,3 +108,11 @@
         }
       ]
   ```
+
+#textData(data)
+      data: a string or an array of strings
+  ```js
+    var jmapReduce = new JMapReduce();
+    jmapReduce.textData('text data sample');
+    jmapReduce.textData(['this is ', 'an example', ' for reading data']);          
+  ```    

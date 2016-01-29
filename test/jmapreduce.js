@@ -151,3 +151,21 @@ describe('with input is only string', function () {
      expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*/
 
 });
+
+describe('textData with string', function(){
+    var jmapReduce = new JMapReduce();
+    var input = 'read text data';
+
+    jmapReduce.textData(input);
+    expect(jmapReduce.toArray()[0]).to.equal("read text data");
+});
+
+describe('textData with array of strings', function(){
+    var jmapReduce = new JMapReduce();
+    var input = ['textData reads', 'array', 'of strings'];
+
+    jmapReduce.textData(input);
+    expect(jmapReduce.toArray()[0]).to.equal('textData reads');
+    expect(jmapReduce.toArray()[1]).to.equal('array');
+    expect(jmapReduce.toArray()[2]).to.equal('of strings');
+});
