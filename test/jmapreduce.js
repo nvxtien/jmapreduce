@@ -19,32 +19,37 @@ describe('should return lines', function () {
 
 describe('should return key value', function () {
     var jmapReduce = new JMapReduce();
-    jmapReduce.map(
-        "line1 line1\n\n line2\n line3\n\n line4 line4 line4\n"
-        , function (data) {
+    jmapReduce.textData("line1 line1\n\n line2\n")
+        .flatMap(function (data) {
             return data.match(/[^\s]+|\s+[^\s+]$/g);
-        }
-    );
+        })
+        .map(function(x){
+            return {key: x, value: 1};
+        })
+    ;
 
     //jmapReduce.print();
 
     expect(jmapReduce.toArray()[0].key).to.equal('line1');
     expect(jmapReduce.toArray()[0].value).to.equal(1);
 
-    expect(diff(jmapReduce.toArray()[0], {key: 'line1', value: 1})).to.equal(false);
-    expect(diff(jmapReduce.toArray()[5], {key: 'line4', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[1], {key: 'line1', value: 1})).to.equal(false);
+    expect(diff(jmapReduce.toArray()[2], {key: 'line2', value: 1})).to.equal(false);
 
 });
 
 describe('should return words key value', function () {
     var jmapReduce = new JMapReduce();
-    jmapReduce.map(
-        "group1 group3\n\n group3\n group3\n\n group3 group1 group2\n"
-        , function (data) {
-            return data.match(/[^\s]+|\s+[^\s+]$/g);
-        })
-        .groupByKey();
+    jmapReduce.textData("group1 group3\n\n group3\n group3\n\n group3 group1 group2\n")
+            .flatMap(function (data) {
+                return data.match(/[^\s]+|\s+[^\s+]$/g);
+            })
+            .map(function(x){
+                return {key: x, value: 1};
+            })
+            .groupByKey();
 
+    //jmapReduce.print();
     var toArray = jmapReduce.toArray();
     expect(diff(jmapReduce.toArray()[0], {key: 'group1', value: [{key: 'group1', value: 1}, {key: 'group1', value: 1}]}))
         .to.equal(false);
@@ -55,12 +60,12 @@ describe('should return words key value', function () {
 
 describe('should print', function () {
     var jmapReduce = new JMapReduce();
-    jmapReduce.map(
-        "line1 \n\n line2\n line3\n\n  line4\n"
-        , function (data) {
-            return data.match(/[^\s]+|\s+[^\s+]$/g);
-        }
-    );
+    jmapReduce.textData("line1 \n\n line2\n line3\n\n  line4\n")
+            .flatMap(function (data) {
+                return data.match(/[^\s]+|\s+[^\s+]$/g);
+            }).map(function(x){
+                return {key: x, value: 1};
+    }       );
 
     //jmapReduce.print();
     console.log('======================================================');
@@ -69,18 +74,20 @@ describe('should print', function () {
 describe('should return sorted array', function () {
     var jmapReduce = new JMapReduce();
     var input = "group1 group3\n\n group3\n group3\n\n group3 group1 group2\n";
-    jmapReduce.map(input, function (data) {
-            return data.match(/[^\s]+|\s+[^\s+]$/g);
-        }
-        )
-        .groupByKey()
-        .reduce(0, function (a, b) {
+    jmapReduce.textData(input)
+            .flatMap(function (data) {
+                return data.match(/[^\s]+|\s+[^\s+]$/g);
+            })
+            .map(function (x) {
+                return {key: x, value: 1};
+            })
+            .groupByKey()
+            .reduce(0, function (a, b) {
                 return a + b;
-            }
-        )
-        .sort(function (a, b) {
-            return b.value - a.value;
-        });
+            })
+            .sort(function (a, b) {
+                return b.value - a.value;
+            });
 
     expect(diff(jmapReduce.toArray()[0], {key: 'group3', value: 4})).to.equal(false);
     expect(diff(jmapReduce.toArray()[1], {key: 'group1', value: 2})).to.equal(false);
@@ -88,7 +95,7 @@ describe('should return sorted array', function () {
 
 });
 
-describe('with input is an array', function () {
+/*describe('with input is an array', function () {
     var jmapReduce = new JMapReduce();
     var input = ["group1 group3 \n\ngroup3\n group3\n\n group3 group1 group2 \n", "group5 group6"];
     jmapReduce.map(input);
@@ -109,20 +116,20 @@ describe('with input is an array', function () {
     expect(diff(jmapReduce.toArray()[0], {key: 'group1', value: 1})).to.equal(false);
     expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
 
-    /*jmapReduce.map(function(data){
+    /!*jmapReduce.map(function(data){
         return data.match(/[^\s]+|\s+[^\s+]$/g);
-    });*/
+    });*!/
 
 
 
-    /*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
+    /!*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
     expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
     expect(diff(jmapReduce.toArray()[2], {key: ' group3', value: 1})).to.equal(false);
-    expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*/
+    expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*!/
 
-});
+});*/
 
-describe('with input is only string', function () {
+/*describe('with input is only string', function () {
     var jmapReduce = new JMapReduce();
     var input = "input is only string";
     jmapReduce.map(input);
@@ -136,31 +143,31 @@ describe('with input is only string', function () {
         return x.match(/[^\s]+|\s+[^\s+]$/g);
     });
 
-    expect(diff(jmapReduce.toArray()[0], {key: 'input', value: 1})).to.equal(false);
-    expect(diff(jmapReduce.toArray()[1], {key: 'is', value: 1})).to.equal(false);
+    //expect(diff(jmapReduce.toArray()[0], {key: 'input', value: 1})).to.equal(false);
+    //expect(diff(jmapReduce.toArray()[1], {key: 'is', value: 1})).to.equal(false);
 
-    /*jmapReduce.map(function(data){
+    /!*jmapReduce.map(function(data){
      return data.match(/[^\s]+|\s+[^\s+]$/g);
-     });*/
+     });*!/
 
 
 
-    /*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
+    /!*expect(diff(jmapReduce.toArray()[0], {key: 'group1 group3 ', value: 1})).to.equal(false);
      expect(diff(jmapReduce.toArray()[1], {key: 'group3', value: 1})).to.equal(false);
      expect(diff(jmapReduce.toArray()[2], {key: ' group3', value: 1})).to.equal(false);
-     expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*/
+     expect(diff(jmapReduce.toArray()[3], {key: ' group3 group1 group2 ', value: 1})).to.equal(false);*!/
 
-});
+});*/
 
-describe('textData with string', function(){
+/*describe('textData with string', function(){
     var jmapReduce = new JMapReduce();
     var input = 'read text data';
 
     jmapReduce.textData(input);
     expect(jmapReduce.toArray()[0]).to.equal("read text data");
-});
+});*/
 
-describe('textData with array of strings', function(){
+/*describe('textData with array of strings', function(){
     var jmapReduce = new JMapReduce();
     var input = ['textData reads', 'array', 'of strings'];
 
@@ -168,4 +175,41 @@ describe('textData with array of strings', function(){
     expect(jmapReduce.toArray()[0]).to.equal('textData reads');
     expect(jmapReduce.toArray()[1]).to.equal('array');
     expect(jmapReduce.toArray()[2]).to.equal('of strings');
-});
+});*/
+
+/*describe('flatMap', function(){
+    var jmapReduce = new JMapReduce();
+    var input = ['textData reads', 'array', 'of strings'];
+
+    jmapReduce.textData(input);
+    expect(jmapReduce.toArray()[0]).to.equal('textData reads');
+    expect(jmapReduce.toArray()[1]).to.equal('array');
+    expect(jmapReduce.toArray()[2]).to.equal('of strings');
+
+    jmapReduce.flatMap(function(x){
+        return x.match(/[^\s]+|\s+[^\s+]$/g);
+    });
+
+    expect(jmapReduce.toArray()[0]).to.equal('textData');
+    expect(jmapReduce.toArray()[1]).to.equal('reads');
+    expect(jmapReduce.toArray()[2]).to.equal('array');
+    expect(jmapReduce.toArray()[3]).to.equal('of');
+    expect(jmapReduce.toArray()[4]).to.equal('strings');
+});*/
+
+/*describe('textData with array of array', function(){
+    var jmapReduce = new JMapReduce();
+    var input = [['textData reads', 'array', 'of strings'], ['test', 'data'], ['data', 'for test']];
+
+    jmapReduce.textData(input);
+
+    /!*jmapReduce.flatMap(function(x){
+        return x.match(/[^\s]+|\s+[^\s+]$/g);
+    });*!/
+
+    //jmapReduce.print();
+
+    //expect(jmapReduce.toArray()[0][0]).to.equal('textData reads');
+    //expect(jmapReduce.toArray()[1][0]).to.equal('test');
+    //expect(jmapReduce.toArray()[2][0]).to.equal('data');
+});*/
