@@ -47,19 +47,20 @@
           " cost is essential to a good MapReduce algorithm.";
   
       var jmapReduce = new JMapReduce();
-  
-      jmapReduce.map(input , function(data){
-                  return data.match(/[^\s]+|\s+[^\s+]$/g);
-              }
-          )
-          .groupByKey()
-          .reduce(0, function(a,b){
-                  return a + b;
-              }
-          )
-          .sort(function(a, b){
-              return b.value - a.value;
-          });
+        jmapReduce.textData(input)
+            .flatMap(function(data){
+                return data.match(/[^\s]+|\s+[^\s+]$/g);
+            })
+            .map(function(x){
+                return {key: x, value: 1};
+            })
+            .groupByKey()
+            .reduce(0, function(a,b){
+                return a + b;
+            })
+            .sort(function(a, b){
+                return b.value - a.value;
+            });
      
      // print ten first elements   
      console.log("%s", JSON.stringify(jmapReduce.toArray().slice(0, 10), null, 2));
