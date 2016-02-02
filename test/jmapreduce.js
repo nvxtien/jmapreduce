@@ -8,13 +8,16 @@ var expect = require('chai').expect;
 var JMapReduce = require('../lib/jmapreduce.js');
 
 describe('should return lines', function () {
-    function lines(data) {
-        return data.match(/[^\r\n]+/g);
-    };
+    it('split line', function(done){
+        function lines(data) {
+            return data.match(/[^\r\n]+/g);
+        };
 
-    var lines = lines("this is\n\na mapreduce\nfor nodejs\n\ndeveloped by joseph");
-    expect(lines[0]).to.equal('this is');
-    expect(lines[2]).to.equal('for nodejs');
+        var lines = lines("this is\n\na mapreduce\nfor nodejs\n\ndeveloped by joseph");
+        expect(lines[0]).to.equal('this is');
+        expect(lines[2]).to.equal('for nodejs');
+        done();
+    });
 });
 
 describe('should return key value', function () {

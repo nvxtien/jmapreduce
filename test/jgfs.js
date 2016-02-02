@@ -10,16 +10,36 @@ var path = require('path')
 var JGFSMaster = require('../lib/jgfs/jgfsmaster.js');
 var JGFSClient = require('../lib/jgfs/jgfsclient.js');
 
-describe("should return chunk servers when init master", function(done){
+describe("should return chunk servers when init master", function(){
     var master = new JGFSMaster();
     expect(master.ChunkServersCollect().length).to.equal(5);
-    //done(null, "OK");
 });
 
-describe("should client", function() {
+describe("should return client", function() {
 
-    var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
-    promise.then(console.log, console.error);
+    it('before', function(done){
+        var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
+         return promise.then(function(data){
+            expect(data).to.equal("completed");
+            done();
+         });
+    });
+
+    it('delete file', function(done){
+        var master = new JGFSMaster();
+        var client = new JGFSClient(master);
+        client.write('/home/joseph/test/test.txt', 'hello');
+        done();
+    });
+
+
+
+    /*var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
+    return promise.then(function(data){
+        console.log(data);
+        expect(data).to.equal("completed");
+        done();
+    });*/
 
    /*promise.then((msg) => {
         expect(msg).to.equal("completed1");
@@ -38,11 +58,9 @@ function writeFile(fileName, content){
     var promise = new Promise((resolve, reject) => {
         fs.writeFile(fileName, content, (err) => {
             if (err) {
-                console.log("===================");
                 reject(Error("error"));
             }
             else {
-                console.log("===================");
                 resolve("completed");
             }
         })
