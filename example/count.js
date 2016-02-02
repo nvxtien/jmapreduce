@@ -34,20 +34,11 @@ var input = "A MapReduce program is composed of a Map() procedure (method) that\
 
 var jmapReduce = new JMapReduce();
     jmapReduce.textData(input)
-        .flatMap(function(data){
-            return data.match(/[^\s]+|\s+[^\s+]$/g);
-        })
-        .map(function(x){
-            return {key: x, value: 1};
-        })
+        .flatMap(data => data.match(/[^\s]+|\s+[^\s+]$/g))
+        .map(x => ({key: x, value: 1}))
         .groupByKey()
-        .reduce(0, function(a,b){
-                return a + b;
-            }
-        )
-        .sort(function(a, b){
-            return b.value - a.value;
-        });
+        .reduce(0, (a, b) => a + b)
+        .sort((a, b) => b.value - a.value);
 
 console.log("%s", JSON.stringify(jmapReduce.collect().slice(0, 10), null, 2));
 
