@@ -1,6 +1,7 @@
 /**
  * Created by joseph on 1/31/16.
  */
+'use strict'
 
 var JMapReduce = require('../lib/jmapreduce');
 var input = "A MapReduce program is composed of a Map() procedure (method) that\n" +
