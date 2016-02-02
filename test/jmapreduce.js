@@ -21,24 +21,24 @@ describe('should return lines', function () {
 });
 
 describe('should return key value', function () {
-    var jmapReduce = new JMapReduce();
-    jmapReduce.textData("line1 line1\n\n line2\n")
-        .flatMap(function (data) {
-            return data.match(/[^\s]+|\s+[^\s+]$/g);
-        })
-        .map(function(x){
-            return {key: x, value: 1};
-        })
-    ;
+    it('key value', function(done){
+        var jmapReduce = new JMapReduce();
+        jmapReduce.textData("line1 line1\n\n line2\n")
+            .flatMap(function (data) {
+                return data.match(/[^\s]+|\s+[^\s+]$/g);
+            })
+            .map(function(x){
+                return {key: x, value: 1};
+            })
+        ;
+        //jmapReduce.print();
+        expect(jmapReduce.collect()[0].key).to.equal('line1');
+        expect(jmapReduce.collect()[0].value).to.equal(1);
 
-    //jmapReduce.print();
-
-    expect(jmapReduce.collect()[0].key).to.equal('line1');
-    expect(jmapReduce.collect()[0].value).to.equal(1);
-
-    expect(diff(jmapReduce.collect()[1], {key: 'line1', value: 1})).to.equal(false);
-    expect(diff(jmapReduce.collect()[2], {key: 'line2', value: 1})).to.equal(false);
-
+        expect(diff(jmapReduce.collect()[1], {key: 'line1', value: 1})).to.equal(false);
+        expect(diff(jmapReduce.collect()[2], {key: 'line2', value: 1})).to.equal(false);
+        done();
+    });
 });
 
 describe('should return words key value', function () {
