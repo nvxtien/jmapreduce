@@ -17,23 +17,15 @@ describe("should return chunk servers when init master", function(){
 
 describe("should return client", function() {
 
-    it('before', function(done){
+    /*it('before', function(done){
         var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
          return promise.then(function(data){
             expect(data).to.equal("completed");
             done();
          });
-    });
-
-    /*it('delete file', function(done){
-        var master = new JGFSMaster();
-        var client = new JGFSClient(master);
-        client.write('/home/joseph/test/test.txt', 'hello');
-        done();
     });*/
 
     it('num of chunks', function(done){
-
         var input = "\n        " +
             "This file tells you all about python that you ever wanted to know.\n        " +
             "Not every README is as informative as this one, but we aim to please.\n        " +
@@ -43,6 +35,9 @@ describe("should return client", function() {
         var client = new JGFSClient({master: master});
         client.write('/home/joseph/test/test.txt', input);
         done();
+
+
+        master.dump_metadata();
     });
 
     /*var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
