@@ -34,10 +34,9 @@ describe("should return client", function() {
         var master = new JGFSMaster();
         var client = new JGFSClient({master: master});
         client.write('/home/joseph/test/test.txt', input);
-        done();
-
-
         master.dump_metadata();
+
+        done();
     });
 
     /*var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
