@@ -34,6 +34,9 @@ describe("should return client", function() {
         var master = new JGFSMaster();
         var client = new JGFSClient({master: master});
         client.write('/home/joseph/test/test.txt', input);
+
+        console.log(client.read('/home/joseph/test/test.txt'));
+
         master.dump_metadata();
 
         done();
