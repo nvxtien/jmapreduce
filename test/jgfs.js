@@ -35,7 +35,7 @@ describe("should return client", function() {
         var master = new JGFSMaster();
         var client = new JGFSClient({master: master});
         client.write('/home/joseph/test/test.txt', input);
-        client.read('/home/joseph/test/test.txt').then(data => {console.log(">>><<<< %s\n", JSON.stringify(data, null, 2))});
+        client.read('/home/joseph/test/test.txt').then(data => {console.log(">>><<<< %s\n", data.join(''))});
         //master.dump_metadata();
         done();
     });
