@@ -5,7 +5,6 @@
 
 var expect = require('chai').expect;
 var fs = require('fs');
-var path = require('path')
 
 var JGFSMaster = require('../lib/jgfs/jgfsmaster.js');
 var JGFSClient = require('../lib/jgfs/jgfsclient.js');
@@ -15,15 +14,17 @@ describe("should return chunk servers when init master", function(){
     expect(master.ChunkServersCollect().length).to.equal(5);
 });
 
-describe("should return client", function() {
+describe("readFile", function() {
 
-    /*it('before', function(done){
-        var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
-         return promise.then(function(data){
-            expect(data).to.equal("completed");
-            done();
-         });
-    });*/
+    it('readFile', function(done){
+
+        var content = fs.readFileSync('/home/joseph/global-groovy.log', 'utf8');
+        console.log(content)
+        done();
+    });
+});
+
+describe("should return client", function() {
 
     it('num of chunks', function(done){
         var input = "\n        " +
@@ -34,32 +35,11 @@ describe("should return client", function() {
         var master = new JGFSMaster();
         var client = new JGFSClient({master: master});
         client.write('/home/joseph/test/test.txt', input);
-
-        console.log(client.read('/home/joseph/test/test.txt'));
-
-        master.dump_metadata();
-
+        client.read('/home/joseph/test/test.txt').then(data => {console.log(">>><<<< %s\n", JSON.stringify(data, null, 2))});
+        //master.dump_metadata();
         done();
     });
 
-    /*var promise =  writeFile('/home/joseph/test/test.txt', 'hello');
-    return promise.then(function(data){
-        console.log(data);
-        expect(data).to.equal("completed");
-        done();
-    });*/
-
-   /*promise.then((msg) => {
-        expect(msg).to.equal("completed1");
-    }, err => {
-        expect(err).to.equal("error1111");
-    });*/
-
-    //var master = new JGFSMaster();
-    //var client = new JGFSClient(master);
-    //client.write('/home/joseph/test/test.txt', "hello");
-
-    //done(null, "OK");
 });
 
 function writeFile(fileName, content){
@@ -76,4 +56,3 @@ function writeFile(fileName, content){
 
     return promise;
 };
-
