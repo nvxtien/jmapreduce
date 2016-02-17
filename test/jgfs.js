@@ -17,7 +17,6 @@ describe("should return chunk servers when init master", function(){
 describe("readFile", function() {
 
     it('readFile', function(done){
-
         var content = fs.readFileSync('/home/joseph/global-groovy.log', 'utf8');
         console.log(content)
         done();
