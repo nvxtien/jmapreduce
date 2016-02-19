@@ -38,19 +38,27 @@ describe('sum of word lengths from i to j', function(){
     });
 
     it('test', (done) => {
-        var text = 'In olden times when wishing still helped one, there lived a king ' +
-            'whose daughters were all beautiful, ' +
-            'but the youngest was so beautiful that the sun itself, which has seen so much, ' +
-            'was astonished whenever ' +
-            'it shone in her face.  Close by the king\'s castle lay a great dark forest,' +
-            'and under an old lime-tree in the forest was a well, and when ' +
-            'the day was very warm, the king\'s child went out into the forest and ' +
-            'sat down by the side of the cool fountain, and when she was bored she ' +
-            'took a golden ball, and threw it up on high and caught it, and this ball was her favorite plaything.';
+        var text = 'In olden times, when wishing still did some good, there lived a king whose daughters were all '
+        'beautiful, but the youngest was so beautiful that the sun itself, who, indeed, has seen so much, '
+        'marveled every time it shone upon her face. In the vicinity of the king\'s castle '
+        'there was a large, dark forest, and in this forest, beneath an old linden tree, '
+        'there was a well. In the heat of the day the princess would go out into the forest '
+        'and sit on the edge of the cool well. To pass the time she would take a golden ball, '
+        'throw it into the air, and then catch it. It was her favorite plaything. '
+        'Now one day it happened that the princess\'s '
+        'golden ball did not fall into her hands, that she held up high, but instead it fell to the ground '
+        'and rolled right into the water. '
+        'The princess followed it with her eyes, '
+        'but the ball disappeared, '
+        'and the well was so deep that '
+        'she could not see its bottom. Then she began to cry. '
+        'She cried louder and louder, and she could not console herself. ';
+
+        console.log(text)
 
         breaker
-            .from('fdsf sdfsdf sdf dfgg dfg df ghghgh hjh hjhj', 2)
-            .break().forEach((x) => console.log(x));
+            .from(text, 2)
+            .breakText().forEach((x) => console.log(x));
         done();
     });
 });
