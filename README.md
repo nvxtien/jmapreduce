@@ -63,7 +63,7 @@
             });
      
      // print ten first elements   
-     console.log("%s", JSON.stringify(jmapReduce.toArray().slice(0, 10), null, 2));
+     console.log("%s", JSON.stringify(jmapReduce.collect().slice(0, 10), null, 2));
      
      // from console 
       [
